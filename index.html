@@ -1,13 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Styled Link</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
 
+      a {
+        text-decoration: none;
+        color: white;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1.2em;
+        min-width: 200px;
+        text-align: center;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      a:hover {
+        background-color: #0056b3;
+        min-width: 200px;
+        transform: scale(1.05);
+      }
+
+      a:active {
+        transform: scale(0.95);
+      }
+    </style>
+  </head>
+  <body>
     <a href="calculator.html">Calculator</a>
-    
-</body>
+    <a href="todo.html">Todo</a>
+  </body>
 </html>
