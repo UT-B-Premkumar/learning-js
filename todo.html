@@ -113,12 +113,13 @@
             id="todo-input"
             placeholder="What do you want to do?"
           />
-          <button id="add-button">Add</button>
+          <button id="add-button" >Add</button>
           <button id="update-button">Update</button>
         </div>
       </section>
 
       <section class="todo-list-section">
+        <div class="message"></div>
         <ul id="todo-list"></ul>
       </section>
     </div>
@@ -130,57 +131,74 @@
         const addButton = document.getElementById("add-button");
         const updateButton = document.getElementById("update-button");
         const todoList = document.getElementById("todo-list");
+        const messageDiv = document.getElementsByClassName("message");
+        
         let currentTask = null; // To keep track of the task being edited
 
         // Add new tasks
-        addButton.addEventListener("click", function () {
-          const taskText = input.value.trim();
-          if (taskText === "") {
-            alert("Please enter a task!");
-            return;
-          }
+        function addData() {
+          return new Promise((resolve, reject) => {
+            // Simulate async operation
+            setTimeout(() => {
+              const taskText = input.value.trim();
+              if (taskText === "") {
+                reject("Please enter a task!");
+                return;
+              }
+       
+             
+              // Create a new list item
+              const newItem = document.createElement("li");
+              newItem.classList.add("todo-item");
 
-          // Create a new list item
+              // Create task text
+              const taskSpan = document.createElement("span");
+              taskSpan.classList.add("task-text");
+              taskSpan.textContent = taskText;
 
-          setTimeout(() => {
-            const newItem = document.createElement("li");
-            newItem.classList.add("todo-item");
+              // Create Edit button
+              const editButton = document.createElement("button");
+              editButton.classList.add("edit-button");
+              editButton.textContent = "Edit";
+              editButton.addEventListener("click", function () {
+                input.value = taskSpan.textContent; // Populate input with task text
+                currentTask = taskSpan; // Set the task being edited
+                addButton.style.display = "none";
+                updateButton.style.display = "inline";
+              });
 
-            // Create task text
-            const taskSpan = document.createElement("span");
-            taskSpan.classList.add("task-text");
-            taskSpan.textContent = taskText;
+              // Create Delete button
+              const deleteButton = document.createElement("button");
+              deleteButton.classList.add("delete-button");
+              deleteButton.textContent = "Delete";
+              deleteButton.addEventListener("click", function () {
+                todoList.removeChild(newItem);
+              });
 
-            // Create Edit button
-            const editButton = document.createElement("button");
-            editButton.classList.add("edit-button");
-            editButton.textContent = "Edit";
-            editButton.addEventListener("click", function () {
-              input.value = taskSpan.textContent; // Populate input with task text
-              currentTask = taskSpan; // Set the task being edited
-              addButton.style.display = "none";
-              updateButton.style.display = "inline";
+              // Append elements to the new item
+              newItem.appendChild(taskSpan);
+              newItem.appendChild(editButton);
+              newItem.appendChild(deleteButton);
+
+              // Append the new item to the list
+              todoList.appendChild(newItem);
+
+              // Clear input field
+              input.value = "";
+              resolve("Task added successfully!");
+            }, 500);
+          });
+        }
+
+        // Button click event
+        document.getElementById("add-button").addEventListener("click", () => {
+          addData()
+            .then((message) => {
+              alert(message);
+            })
+            .catch((error) => {
+              alert(error);
             });
-
-            // Create Delete button
-            const deleteButton = document.createElement("button");
-            deleteButton.classList.add("delete-button");
-            deleteButton.textContent = "Delete";
-            deleteButton.addEventListener("click", function () {
-              todoList.removeChild(newItem);
-            });
-
-            // Append elements to the new item
-            newItem.appendChild(taskSpan);
-            newItem.appendChild(editButton);
-            newItem.appendChild(deleteButton);
-
-            // Append the new item to the list
-            todoList.appendChild(newItem);
-
-            // Clear input field
-            input.value = "";
-          }, 500);
         });
 
         // Update an existing task
