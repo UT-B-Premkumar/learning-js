@@ -1,15 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo</title>
-</head>
-<body>
-    
 
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
+      body {
+        font-family: sans-serif;
+        background-color: gainsboro;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+      }
+
+      #todo-input {
+        width: 80%;
+        padding: 0.5rem;
+        border: 2px solid green;
+        border-radius: 5px;
+      }
+
+      #add-button {
+        padding: 1rem;
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #add-button:hover {
+        background-color: lightgreen;
+        color: #333;
+      }
+
+      #todo-list {
+        list-style-type: none;
+      }
+
+      .todo-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+      }
+
+      button {
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem;
+        cursor: pointer;
+      }
+
+      .complete-button {
+        background-color: goldenrod;
+        color: white;
+      }
+
+      .complete-button:hover {
+        background-color: lightgoldenrodyellow;
+        color: #333;
+      }
+
+      .delete-button {
+        background-color: red;
+        color: white;
+      }
+      .delete-button:hover {
+        background-color: black;
+      }
+
+      .delete-button:active {
+        background-color: linear-gradient(to bottom right, red 0%, black 100%);
+      }
+      #update-button {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Todo List</h1>
+      </header>
+
+      <section class="todo-input-section">
+        <div class="todo-input-wrapper">
+          <input
+            type="text"
+            id="todo-input"
+            placeholder="What do you want to do?"
+          />
+          <button id="add-button">Add</button>
+          <button id="update-button">Update</button>
+        </div>
+      </section>
+
+      <section class="todo-list-section">
+        <ul id="todo-list"></ul>
+      </section>
+    </div>
 
     <script src="script/script.js"></script>
-</body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("todo-input");
+        const addButton = document.getElementById("add-button");
+        const updateButton = document.getElementById("update-button");
+        const todoList = document.getElementById("todo-list");
+        let currentTask = null; // To keep track of the task being edited
+
+        // Add new tasks
+        addButton.addEventListener("click", function () {
+          const taskText = input.value.trim();
+          if (taskText === "") {
+            alert("Please enter a task!");
+            return;
+          }
+
+          // Create a new list item
+
+          setTimeout(() => {
+            const newItem = document.createElement("li");
+            newItem.classList.add("todo-item");
+
+            // Create task text
+            const taskSpan = document.createElement("span");
+            taskSpan.classList.add("task-text");
+            taskSpan.textContent = taskText;
+
+            // Create Edit button
+            const editButton = document.createElement("button");
+            editButton.classList.add("edit-button");
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", function () {
+              input.value = taskSpan.textContent; // Populate input with task text
+              currentTask = taskSpan; // Set the task being edited
+              addButton.style.display = "none";
+              updateButton.style.display = "inline";
+            });
+
+            // Create Delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.classList.add("delete-button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function () {
+              todoList.removeChild(newItem);
+            });
+
+            // Append elements to the new item
+            newItem.appendChild(taskSpan);
+            newItem.appendChild(editButton);
+            newItem.appendChild(deleteButton);
+
+            // Append the new item to the list
+            todoList.appendChild(newItem);
+
+            // Clear input field
+            input.value = "";
+          }, 500);
+        });
+
+        // Update an existing task
+        updateButton.addEventListener("click", function () {
+          if (currentTask) {
+            const updatedText = input.value.trim();
+            if (updatedText === "") {
+              alert("Please enter a task!");
+              return;
+            }
+
+            setTimeout(() => {
+              currentTask.textContent = updatedText; // Update task text
+              currentTask = null; // Clear current task
+              input.value = ""; // Clear input field
+              addButton.style.display = "inline";
+              updateButton.style.display = "none";
+            }, timeout);
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
