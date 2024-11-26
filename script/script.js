@@ -99,9 +99,58 @@ const city = ["chennai" , "madurai" , "kovai" , "theni" , "cbe" , "erode"]
 // console.log(city[city.length -3]);
 
 // Push 
-city.push("kadalore")
-city.pop("kadalore")
-console.log(city);
+// city.push("kadalore")
+// pop 
+// city.pop()
+
+// shift 
+// city.shift()
+
+// unshift 
+
+// city.unshift("kadalore")
+
+
+// splice 
+
+// city.splice(0,1)  //its remove 1st value
+// city.splice(0,1 , "pondy")  //its replace value  1st index
+// city.splice(0,0, "pondy" , "chhh")  //its add value  1st index
+
+
+// slice 
+// console.log(city.splice(0,1));
+
+
+// reverse 
+
+// console.log(city.reverse());
+
+// Join
+
+// let str = city.join(" ")
+
+// split 
+
+// let str = "prem,kumar, vs, ps, ss"
+
+// const arr = str.split(",")
+
+
+// concat 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
